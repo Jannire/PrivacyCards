@@ -19,25 +19,37 @@ public class CardLogic : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (isSelected == true)
+        //Debug.Log("Estado: " + isSelected);
+        //Debug.Log("Carta: " + transform.parent.gameObject);
+        if (transform.parent.gameObject.name.Contains("Card"))
         {
-            Debug.Log("Deseleccionar");
-            isSelected = false;
-            CardManager.Instance.IsCardSelected = false;
-            CardManager.Instance.selectedCard = null;
-        }
-        else if (CardManager.Instance.IsCardSelected == true)
-        {
-            //MAnejar el movimiento de cartas en card Manager
-            Debug.Log("Cambiar de carta");
-            CardManager.Instance.selectedCard = gameObject;
-        }
-        else
-        {
-            Debug.Log("Seleccionar esta carta");
-            isSelected = true;
-            CardManager.Instance.IsCardSelected = true;
-            CardManager.Instance.selectedCard = gameObject;
+            Debug.Log("Este script --> " + transform.parent.gameObject);
+            Debug.Log("En Cardmanager -->" + CardManager.Instance.selectedCard);
+            if (CardManager.Instance.selectedCard == transform.parent.gameObject)
+            {
+                //Debug.Log("Deseleccionar");
+                isSelected = false;
+                CardManager.Instance.BajartodasCards();
+                CardManager.Instance.IsCardSelected = false;
+                CardManager.Instance.selectedCard = null;
+            }
+            else if (CardManager.Instance.IsCardSelected == true)
+            {
+                //Manejar el movimiento de cartas en card Manager
+                //Debug.Log("Cambiar de carta");
+                CardManager.Instance.BajartodasCards();
+                CardManager.Instance.selectedCard = transform.parent.gameObject;
+                CardManager.Instance.SelectingACard(transform.parent.gameObject);
+            }
+            else
+            {
+                //Debug.Log("Seleccionar esta carta");
+                isSelected = true;
+                CardManager.Instance.IsCardSelected = true;
+                CardManager.Instance.selectedCard = transform.parent.gameObject;
+                CardManager.Instance.SelectingACard(transform.parent.gameObject);
+            }
+
         }
     }
 }
