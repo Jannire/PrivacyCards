@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class CardManager : MonoBehaviour
 {
@@ -53,6 +54,7 @@ public class CardManager : MonoBehaviour
 
   public void posIniCards()
   {
+
     posIni1 = card1.transform.position;
     posIni2 = card2.transform.position;
     posIni3 = card3.transform.position;
@@ -67,11 +69,25 @@ public class CardManager : MonoBehaviour
     cards.Add(card2);
     cards.Add(card3);
     cards.Add(card4);
-
-    for (int i = 0; i < 15; i++)
+    int tempRand = 0;
+    for (int i = 0; i < cards.Count; i++)
     {
-      ataque.Add("A");
-      defensa.Add("D");
+      tempRand = UnityEngine.Random.Range(0, 2);
+      // 0 -> ataque
+      // 1 -> defensa
+      if (tempRand == 0)
+      {
+        ataque.Add("A");
+        //Debug.Log("Text attack: " + BDCards.Instance.ataquesNames);
+        cards[i].transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = BDCards.Instance.ataquesNames[i];
+      }
+      else
+      {
+        defensa.Add("D");
+        //Debug.Log("Text defense: " + BDCards.Instance.defensaNames);
+        cards[i].transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = BDCards.Instance.defensaNames[i];
+      }
+      //Debug.Log("New Card: " + cards[i].transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text);
     }
   }
 
@@ -83,7 +99,7 @@ public class CardManager : MonoBehaviour
     {
       card.transform.position = (card.transform.position + Vector3.up);
       //card.transform.Translate(0,3,0);
-      Debug.Log("Selected: " + selectedCard);
+      //Debug.Log("Selected: " + selectedCard);
       //card.transform.position.x = posIni.x + 5;
       //Debug.Log("Pos: " + card.transform.position.x);
     }
@@ -103,13 +119,15 @@ public class CardManager : MonoBehaviour
 
   public void PonerCard(GameObject card)
   {
-    Debug.Log("Se ha puesto la carta: " + card);
+    //Debug.Log("Se ha puesto la carta: " + card);
     //Quitar el card
     card.SetActive(false);
     mazoCards--;
     CardManager.Instance.selectedCard = null;
     CardManager.Instance.IsCardSelected = false;
     OrganizarBaraja();
+
+    //GameManager.Instance.changeTurn();
   }
 
   public void OrganizarBaraja()
@@ -117,7 +135,7 @@ public class CardManager : MonoBehaviour
     List<GameObject> currentActive = new List<GameObject>();
     currentActive = BuscarCardsActivas();
     string combinedString = string.Join(",", currentActive);
-    Debug.Log("Activas " + "(" + mazoCards + "): " + combinedString);
+    //Debug.Log("Activas " + "(" + mazoCards + "//"+ currentActive.Count + "): " + combinedString);
 
     if (mazoCards == 0)
     {
@@ -127,24 +145,10 @@ public class CardManager : MonoBehaviour
     {
       for (int i = 0; i < mazoCards; i++)
       {
+        //Debug.Log("i: " + i + "/" + currentActive.Count);
         currentActive[i].transform.position = poss[i];
       }
     }
-    /*
-    switch (mazoCards)
-    {
-      case 0:
-        Debug.Log("No cards on deck");
-        break;
-      case 1:
-        currentActive[0].transform.position = poss[0];
-        break;
-      case 2:
-        
-      default:
-        Debug.Log("AAAAAa");
-        break;
-    }*/
   }
 
   public List<GameObject> BuscarCardsActivas()
@@ -160,17 +164,30 @@ public class CardManager : MonoBehaviour
     return currentActiveCards;
   }
 
+  public List<GameObject> BuscarCardsNOActivas()
+  {
+    List<GameObject> currentNONActiveCards = new List<GameObject>();
+    foreach (GameObject cad in cards)
+    {
+      if (!cad.activeSelf)
+      {
+        currentNONActiveCards.Add(cad);
+      }
+    }
+    return currentNONActiveCards;
+  }
+
   public string Controllar_baraja_defensa()
   {
-    Debug.Log("Next is: " + defensa[contDefensa]);
+    //Debug.Log("Next is: " + BDCards.Instance.defensaNames[contDefensa]);
     contDefensa++;
-    return defensa[contDefensa];
+    return BDCards.Instance.defensaNames[contDefensa];
   }
 
   public string Controllar_baraja_ataque()
   {
-    Debug.Log("Next is: " + ataque[contAtaque]);
+    //Debug.Log("Next is: " + BDCards.Instance.ataquesNames[contAtaque]);
     contAtaque++;
-    return ataque[contAtaque];
+    return BDCards.Instance.ataquesNames[contAtaque];
   }
 }

@@ -32,29 +32,16 @@ public class SpawnCards : MonoBehaviour
         if (CardManager.Instance.mazoCards < 4)
         {
             Debug.Log("Sacar nueva card");
-            switch (CardManager.Instance.mazoCards)
-            {
-                case 0:
-                    cardT = card4;
-                    break;
-                case 1:
-                    cardT = card3;
-                    break;
-                case 2:
-                    cardT = card2;
-                    break;
-                case 3:
-                    cardT = card1;
-                    break;
-                default:
-                    Debug.Log("????");
-                    break;
-            }
+            List<GameObject> currentActiveNON = new List<GameObject>();
+            currentActiveNON = CardManager.Instance.BuscarCardsNOActivas();
+
             CardManager.Instance.selectedCard = null;
             CardManager.Instance.IsCardSelected = false;
             CardManager.Instance.BajartodasCards();
             CardManager.Instance.mazoCards++;
-            spawnCard(cardT);
+            
+            spawnCard(currentActiveNON[0]);
+            GameManager.Instance.changeTurn();
         }
         else
         {
@@ -65,9 +52,11 @@ public class SpawnCards : MonoBehaviour
     void spawnCard(GameObject card)
     {
         card.SetActive(true);
+        Debug.Log("Temp: " + card);
         CardManager.Instance.OrganizarBaraja();
-        temp = card.transform.GetChild(1).GetChild(0).gameObject;
-        //Debug.Log("Temp: " + temp);
+        
+        temp = card.transform.GetChild(1).gameObject;
+        //
         //Debug.Log("--> " + gameObject.name.GetType());
         
         if(gameObject.name == "Defensa")
