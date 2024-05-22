@@ -54,19 +54,16 @@ public class SpawnCards : MonoBehaviour
         card.SetActive(true);
         Debug.Log("Temp: " + card);
         CardManager.Instance.OrganizarBaraja();
-        
         temp = card.transform.GetChild(1).gameObject;
-        //
-        //Debug.Log("--> " + gameObject.name.GetType());
         
         if(gameObject.name == "Defensa")
         {
             temp.GetComponent<TextMeshPro>().text = CardManager.Instance.Controllar_baraja_defensa();
-        }
+        }/*
         else
         {
             temp.GetComponent<TextMeshPro>().text = CardManager.Instance.Controllar_baraja_ataque();
-        }
+        }*/
         //= Controllar_baraja_defensa
     }
 }

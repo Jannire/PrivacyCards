@@ -13,6 +13,7 @@ public class CardManager : MonoBehaviour
   public int mazoCards;
 
   public GameObject selectedCard;
+  public int indexSelectedCard;
   public bool IsCardSelected;
 
   private Vector3 posIni1 = new Vector3(0f, 0f, 0f);
@@ -72,22 +73,31 @@ public class CardManager : MonoBehaviour
     int tempRand = 0;
     for (int i = 0; i < cards.Count; i++)
     {
-      tempRand = UnityEngine.Random.Range(0, 2);
+      defensa.Add("D");
+      //Debug.Log("Text defense: " + BDCards.Instance.defensaNames);
+
+      tempRand = UnityEngine.Random.Range(0, 16); //Abierto cerrado
+      cards[i].transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = BDCards.Instance.defensaNames[tempRand];
+      cards[i].transform.GetChild(0).transform.GetComponent<SpriteRenderer>().color = new Color32(66, 224, 54, 235);
+
+
+      #region antiguo para ataque en mazo
+
+
       // 0 -> ataque
       // 1 -> defensa
-      if (tempRand == 0)
+      //Debug.Log("Que es: " + cards[i].transform.GetChild(0));
+      /*if (tempRand == 0)
       {
         ataque.Add("A");
         //Debug.Log("Text attack: " + BDCards.Instance.ataquesNames);
         cards[i].transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = BDCards.Instance.ataquesNames[i];
-      }
-      else
-      {
-        defensa.Add("D");
-        //Debug.Log("Text defense: " + BDCards.Instance.defensaNames);
-        cards[i].transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = BDCards.Instance.defensaNames[i];
-      }
+        cards[i].transform.GetChild(0).transform.GetComponent<SpriteRenderer>().color = new Color32( 224, 58, 54, 235 );
+      }*/
+
+
       //Debug.Log("New Card: " + cards[i].transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text);
+      #endregion
     }
   }
 
@@ -123,8 +133,9 @@ public class CardManager : MonoBehaviour
     //Quitar el card
     card.SetActive(false);
     mazoCards--;
-    CardManager.Instance.selectedCard = null;
-    CardManager.Instance.IsCardSelected = false;
+    selectedCard = null;
+    IsCardSelected = false;
+    indexSelectedCard = 0;
     OrganizarBaraja();
 
     //GameManager.Instance.changeTurn();
@@ -180,14 +191,14 @@ public class CardManager : MonoBehaviour
   public string Controllar_baraja_defensa()
   {
     //Debug.Log("Next is: " + BDCards.Instance.defensaNames[contDefensa]);
-    contDefensa++;
-    return BDCards.Instance.defensaNames[contDefensa];
+    int tempRand = UnityEngine.Random.Range(0, 16);
+    return BDCards.Instance.defensaNames[tempRand];
   }
-
-  public string Controllar_baraja_ataque()
-  {
-    //Debug.Log("Next is: " + BDCards.Instance.ataquesNames[contAtaque]);
-    contAtaque++;
-    return BDCards.Instance.ataquesNames[contAtaque];
-  }
+  /*
+    public string Controllar_baraja_ataque()
+    {
+      //Debug.Log("Next is: " + BDCards.Instance.ataquesNames[contAtaque]);
+      contAtaque++;
+      return BDCards.Instance.ataquesNames[contAtaque];
+    }*/
 }

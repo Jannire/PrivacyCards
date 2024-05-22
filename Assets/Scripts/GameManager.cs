@@ -57,12 +57,12 @@ public class GameManager : MonoBehaviour
         if (humanTurn)
         {
             UITurno.GetComponent<TextMeshProUGUI>().text = "Turno: Tu";
-            Debug.Log("Entrar change turn: tu");
+            //Debug.Log("Entrar change turn: tu");
         }
         else
         {
             UITurno.GetComponent<TextMeshProUGUI>().text = "Turno: No tu";
-            Debug.Log("Entrar change turn: No tu");
+            //Debug.Log("Entrar change turn: No tu");
         }
 
         int numTemp = 0;
@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
                 if (!mesaCards[i].transform.GetChild(0).gameObject.GetComponent<CardMesaLogic>().indicadorFT)
                 {
                     numTemp = i + 1;
-                    Debug.Log("++ Turno en card: " + numTemp);
+                    //Debug.Log("++ Turno en card: " + numTemp);
                     mesaCards[i].transform.GetChild(0).gameObject.GetComponent<CardMesaLogic>().TurnUp(turnos[i]);
                     turnos[i]++;
                 }
@@ -85,10 +85,10 @@ public class GameManager : MonoBehaviour
             }
             if (turnos[i] == 4)
             {
-                Debug.Log("TURNO 4!!!!");
                 QuitarCardMesa(mesaCards[i]);
                 turnos[i] = 0;
-                mesaCards[i].transform.GetChild(0).gameObject.GetComponent<CardMesaLogic>().ResetTurns();
+                //mesaCards[i].transform.GetChild(0).gameObject.GetComponent<CardMesaLogic>().ResetTurns();
+                Debug.Log("TURNO 4!!!!");
             }
         }
         if (!humanTurn)
@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
 
     public void QuitarCardMesa(GameObject card)
     {
-        Debug.Log("Card? " + card.transform.GetChild(0).gameObject);
+        //Debug.Log("Card? " + card.transform.GetChild(0).gameObject);
         card.transform.GetChild(0).gameObject.GetComponent<CardMesaLogic>().EliminarCard();
     }
 }

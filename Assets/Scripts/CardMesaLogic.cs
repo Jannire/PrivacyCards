@@ -8,6 +8,7 @@ public class CardMesaLogic : MonoBehaviour
     public int cardsContested = 0;
     public int cardsContestedEnemy = 0;
     public string nameMesa;
+    public int indexCard;
     //public string tex;
 
     public GameObject mini1;
@@ -34,25 +35,33 @@ public class CardMesaLogic : MonoBehaviour
     void Start()
     {
         cardsContested = 0;
-        int tempRand = 0;
-        int ran = 0;
-        tempRand = UnityEngine.Random.Range(0, 2);
+
         Transform parentTransform = transform.parent;
         Transform siblingTransform = parentTransform.Find("Text");
         TextoCard = siblingTransform.gameObject;
 
+        indexCard = UnityEngine.Random.Range(0, BDCards.Instance.ataquesNames.Count);
+        TextoCard.GetComponent<TextMeshPro>().text = BDCards.Instance.ataquesNames[indexCard];
+        gameObject.transform.GetComponent<SpriteRenderer>().color = new Color32(224, 58, 54, 235);
+        //Debug.Log("Ataque: " + transform.parent);
+
+        #region old code
+        /*
         if (tempRand == 0) //defensa
         {
             ran = UnityEngine.Random.Range(0, BDCards.Instance.defensaNames.Count);
             TextoCard.GetComponent<TextMeshPro>().text = BDCards.Instance.defensaNames[ran];
+            gameObject.transform.GetComponent<SpriteRenderer>().color = new Color32( 66, 224, 54, 235 );
+            Debug.Log("Defensa: " + transform.parent);
+            //cards[i].transform.GetChild(0)
             //Debug.Log("TexMesa: " + TextoCard.GetComponent<TextMeshPro>().text);
         }
         else //ataque
         {
-            ran = UnityEngine.Random.Range(0, BDCards.Instance.ataquesNames.Count);
-            TextoCard.GetComponent<TextMeshPro>().text = BDCards.Instance.ataquesNames[ran];
+            
             ///Debug.Log("TexMesa: " + TextoCard.GetComponent<TextMeshPro>().text);
-        }
+        }*/
+        #endregion
 
         if (TextoCard.GetComponent<TextMeshPro>().text.Length > 80)
         {
@@ -85,11 +94,6 @@ public class CardMesaLogic : MonoBehaviour
 
     }
 
-    void Update()
-    {
-
-    }
-
     void OnMouseDown()
     {
         CardMesaDown();
@@ -109,6 +113,7 @@ public class CardMesaLogic : MonoBehaviour
                 mini2AI.SetActive(true);
             }
             firstTime();
+            RevisarPuntaje(scoreAI);
         }
 
         if (CardManager.Instance.IsCardSelected == true)
@@ -126,15 +131,25 @@ public class CardMesaLogic : MonoBehaviour
                 //Cambiar de sitio
             }
             firstTime();
+            RevisarPuntaje(scoreHuman);
+
             GameManager.Instance.changeTurn();
         }
+    }
+
+    public void RevisarPuntaje(GameObject player)
+    {
+        //Debug.Log("Score: " + player.GetComponent<TextMeshPro>().text);
+
+        int cont = BDCards.Instance.ReturningScore(indexCard, CardManager.Instance.indexSelectedCard);
+        Debug.Log("cont: " + cont);
 
 
     }
 
     IEnumerator DiscardCard()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3); //Revisar si vale la pena
         nameMesa = transform.parent.gameObject.name;
 
         //Entre muchas comillas aqui va la animación de draw new
@@ -143,6 +158,12 @@ public class CardMesaLogic : MonoBehaviour
 
         mini1AI.SetActive(false);
         mini2AI.SetActive(false);
+        ResetTurns();
+
+        Debug.Log("Se ha eliminado");
+
+        indexCard = UnityEngine.Random.Range(0, BDCards.Instance.ataquesNames.Count);
+        TextoCard.GetComponent<TextMeshPro>().text = BDCards.Instance.ataquesNames[indexCard];
     }
 
     public void EliminarCard()
@@ -168,7 +189,7 @@ public class CardMesaLogic : MonoBehaviour
 
     public void TurnUp(int index)
     {
-        Debug.Log("Index: " + index);
+        //Debug.Log("Index: " + index);
         objTurns[index].SetActive(false);
     }
 
