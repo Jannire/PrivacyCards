@@ -34,6 +34,7 @@ public class CardLogic : MonoBehaviour
                     CardManager.Instance.selectedCard = transform.parent.gameObject;
                     CardManager.Instance.SelectingACard(transform.parent.gameObject);
                     CardManager.Instance.indexSelectedCard = WhatCard();
+                    PreviewLogic.Instance.SelectedPreview();
                 }
                 else
                 {
@@ -43,8 +44,9 @@ public class CardLogic : MonoBehaviour
                     CardManager.Instance.selectedCard = transform.parent.gameObject;
                     CardManager.Instance.SelectingACard(transform.parent.gameObject);
                     CardManager.Instance.indexSelectedCard = WhatCard();
+                    PreviewLogic.Instance.SelectedPreview();
                 }
-                PreviewLogic.Instance.SelectedPreview();
+                
             }
         }
         else

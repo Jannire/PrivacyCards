@@ -28,10 +28,9 @@ public class SpawnCards : MonoBehaviour
 
     void OnMouseDown()
     {
-        //Draw card --- COMO HACER QUE SE DESLIZEN
         if (CardManager.Instance.mazoCards < 4)
         {
-            Debug.Log("Sacar nueva card");
+            //Debug.Log("Sacar nueva card");
             List<GameObject> currentActiveNON = new List<GameObject>();
             currentActiveNON = CardManager.Instance.BuscarCardsNOActivas();
 
@@ -39,27 +38,42 @@ public class SpawnCards : MonoBehaviour
             CardManager.Instance.IsCardSelected = false;
             CardManager.Instance.BajartodasCards();
             CardManager.Instance.mazoCards++;
-            
+
             spawnCard(currentActiveNON[0]);
             GameManager.Instance.changeTurn();
         }
         else
         {
-            Debug.Log("No puedes sacar más cards");
+            //Debug.Log("No puedes sacar más cards");
         }
     }
 
     void spawnCard(GameObject card)
     {
         card.SetActive(true);
-        Debug.Log("Temp: " + card);
+        //Debug.Log("Temp: " + card);
         CardManager.Instance.OrganizarBaraja();
         temp = card.transform.GetChild(1).gameObject;
-        
-        if(gameObject.name == "Defensa")
+
+        if (gameObject.name == "Defensa")
         {
             temp.GetComponent<TextMeshPro>().text = CardManager.Instance.Controllar_baraja_defensa();
-        }/*
+        }
+
+        if (temp.GetComponent<TextMeshPro>().text.Length > 50)
+        {
+            temp.GetComponent<TextMeshPro>().fontSize = 10;
+        }
+        else if (temp.GetComponent<TextMeshPro>().text.Length > 30)
+        {
+            temp.GetComponent<TextMeshPro>().fontSize = 13;
+        }
+        else
+        {
+            temp.GetComponent<TextMeshPro>().fontSize = 15;
+        }
+
+        /*
         else
         {
             temp.GetComponent<TextMeshPro>().text = CardManager.Instance.Controllar_baraja_ataque();

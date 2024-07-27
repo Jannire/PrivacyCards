@@ -29,6 +29,8 @@ public class GuideBook : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("Open guidebook2");
+            //Esconder puntaje
+            
             GuideLogic.Instance.abrirGuidebook();
         }
     }

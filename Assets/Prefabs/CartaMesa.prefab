@@ -187,7 +187,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1883658081981590390, guid: deb6e23ea4a95cd428380007b5030ea8, type: 2}
+  - {fileID: -7037246104942804385, guid: deb6e23ea4a95cd428380007b5030ea8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -232,14 +232,14 @@ MonoBehaviour:
   m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: deb6e23ea4a95cd428380007b5030ea8, type: 2}
-  m_sharedMaterial: {fileID: 1883658081981590390, guid: deb6e23ea4a95cd428380007b5030ea8, type: 2}
+  m_sharedMaterial: {fileID: -7037246104942804385, guid: deb6e23ea4a95cd428380007b5030ea8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4282325272
+  m_fontColor: {r: 0.09603061, g: 0.0966685, b: 0.24528301, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -745,7 +745,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1883658081981590390, guid: deb6e23ea4a95cd428380007b5030ea8, type: 2}
+  - {fileID: -7037246104942804385, guid: deb6e23ea4a95cd428380007b5030ea8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -790,14 +790,14 @@ MonoBehaviour:
   m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: deb6e23ea4a95cd428380007b5030ea8, type: 2}
-  m_sharedMaterial: {fileID: 1883658081981590390, guid: deb6e23ea4a95cd428380007b5030ea8, type: 2}
+  m_sharedMaterial: {fileID: -7037246104942804385, guid: deb6e23ea4a95cd428380007b5030ea8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4282325272
+  m_fontColor: {r: 0.09603061, g: 0.0966685, b: 0.24528301, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1046,7 +1046,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1883658081981590390, guid: deb6e23ea4a95cd428380007b5030ea8, type: 2}
+  - {fileID: 3719924876453248656, guid: 6f0759a06fa4eb9458af8ef99b0dfcdf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1090,8 +1090,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Carta en mesa
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: deb6e23ea4a95cd428380007b5030ea8, type: 2}
-  m_sharedMaterial: {fileID: 1883658081981590390, guid: deb6e23ea4a95cd428380007b5030ea8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6f0759a06fa4eb9458af8ef99b0dfcdf, type: 2}
+  m_sharedMaterial: {fileID: 3719924876453248656, guid: 6f0759a06fa4eb9458af8ef99b0dfcdf, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1461,6 +1461,7 @@ MonoBehaviour:
   cardsContested: 0
   cardsContestedEnemy: 0
   nameMesa: 
+  indexCard: 0
   mini1: {fileID: 5637824152256005865}
   mini2: {fileID: 2323362925248808177}
   mini1AI: {fileID: 2532754903782477881}

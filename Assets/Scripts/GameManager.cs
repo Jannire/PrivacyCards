@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour
     public int puntajePlayer;
     public int puntajeAI;
     public bool humanTurn = true;
-    public GameObject UITurno;
+    public GameObject UIScore;
+    public GameObject GameOverText;
+    public GameObject GameOverScreen;
 
     public GameObject mesa1;
     public GameObject mesa2;
@@ -17,7 +19,10 @@ public class GameManager : MonoBehaviour
     public GameObject mesa4;
 
     public List<int> turnos = new List<int>();
+    public List<int> indexCardsMesa = new List<int> {0, 0, 0, 0};
     public List<GameObject> mesaCards = new List<GameObject>();
+
+    public GameObject glowEnemy;
 
     public static GameManager Instance { get; private set; }
 
@@ -42,6 +47,7 @@ public class GameManager : MonoBehaviour
         mesaCards.Add(mesa4);
 
         humanTurn = true; //Inicia jugador
+        //GameManager.Instance.UIScore.SetActive(false); // para pruebas
     }
 
     // Update is called once per frame
@@ -53,15 +59,27 @@ public class GameManager : MonoBehaviour
     public void changeTurn()
     {
         humanTurn = !humanTurn;
-
+        List<GameObject> activeCards = new List<GameObject>();
+        activeCards = CardManager.Instance.BuscarCardsActivas();
         if (humanTurn)
         {
-            UITurno.GetComponent<TextMeshProUGUI>().text = "Turno: Tu";
+            for (int i = 0; i < activeCards.Count; i++)
+            {
+                activeCards[i].transform.GetChild(2).gameObject.SetActive(true);
+            }
+            glowEnemy.SetActive(false);
+            UIScore.GetComponent<TextMeshProUGUI>().text = "Puntaje jugador: " + puntajePlayer + "\nPuntaje AI: " + puntajeAI;
             //Debug.Log("Entrar change turn: tu");
         }
         else
         {
-            UITurno.GetComponent<TextMeshProUGUI>().text = "Turno: No tu";
+            for (int i = 0; i < activeCards.Count; i++)
+            {
+                activeCards[i].transform.GetChild(2).gameObject.SetActive(false);
+            }
+            glowEnemy.SetActive(true);
+            UIScore.GetComponent<TextMeshProUGUI>().text = "Puntaje jugador: " + puntajePlayer + "\nPuntaje AI: " + puntajeAI;
+            // UITurno.GetComponent<TextMeshProUGUI>().text = "Turno: No tu";
             //Debug.Log("Entrar change turn: No tu");
         }
 
@@ -88,7 +106,7 @@ public class GameManager : MonoBehaviour
                 QuitarCardMesa(mesaCards[i]);
                 turnos[i] = 0;
                 //mesaCards[i].transform.GetChild(0).gameObject.GetComponent<CardMesaLogic>().ResetTurns();
-                Debug.Log("TURNO 4!!!!");
+                //Debug.Log("TURNO 4!!!!");
             }
         }
         if (!humanTurn)
@@ -102,5 +120,23 @@ public class GameManager : MonoBehaviour
     {
         //Debug.Log("Card? " + card.transform.GetChild(0).gameObject);
         card.transform.GetChild(0).gameObject.GetComponent<CardMesaLogic>().EliminarCard();
+    }
+
+    public void GameOver()
+    {
+        if(puntajePlayer >= 30 )
+        {
+            Debug.Log("Gano jugador!");
+            GameOverScreen.SetActive(true);
+            GameOverText.GetComponent<TextMeshProUGUI>().text = "¡Haz ganado esta partida!\n¡Para jugar de nuevo refresca la página! \n\nGracias por tu participación";
+            //GameOverScreen.transform.GetChild(0).gameObject.GetComponent<TextMeshPro>().text = "¡Haz ganado esta partida!\n¡Para jugar de nuevo refresca la página! \n\nGracias por tu participación";
+        }
+        else if(puntajeAI >= 30)
+        {
+            Debug.Log("Perdió jugador");
+            GameOverScreen.SetActive(true);
+            GameOverText.GetComponent<TextMeshProUGUI>().text = "¡En la siguiente podrás vencer!\n¡Para jugar de nuevo refresca la página!\n\nGracias por tu participación";
+            //GameOverScreen.transform.GetChild(0).gameObject.GetComponent<TextMeshPro>().text = "¡En la siguiente podrás vencer!\n¡Para jugar de nuevo refresca la página!\n\nGracias por tu participación";
+        }
     }
 }

@@ -79,7 +79,20 @@ public class CardManager : MonoBehaviour
       tempRand = UnityEngine.Random.Range(0, 16); //Abierto cerrado
       cards[i].transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = BDCards.Instance.defensaNames[tempRand];
       cards[i].transform.GetChild(0).transform.GetComponent<SpriteRenderer>().color = new Color32(66, 224, 54, 235);
+      GameObject tempCardTam = cards[i].transform.GetChild(1).gameObject; 
 
+      if (tempCardTam.GetComponent<TextMeshPro>().text.Length > 50)
+      {
+        tempCardTam.GetComponent<TextMeshPro>().fontSize = 10;
+      }
+      else if (tempCardTam.GetComponent<TextMeshPro>().text.Length > 30)
+      {
+        tempCardTam.GetComponent<TextMeshPro>().fontSize = 13;
+      }
+      else
+      {
+        tempCardTam.GetComponent<TextMeshPro>().fontSize = 15;
+      }
 
       #region antiguo para ataque en mazo
 
@@ -194,6 +207,11 @@ public class CardManager : MonoBehaviour
     int tempRand = UnityEngine.Random.Range(0, 16);
     return BDCards.Instance.defensaNames[tempRand];
   }
+/*
+  public void selectingSpecial()
+  {
+
+  }*/
   /*
     public string Controllar_baraja_ataque()
     {

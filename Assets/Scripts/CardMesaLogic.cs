@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
+
+using System.Text;
 
 public class CardMesaLogic : MonoBehaviour
 {
@@ -88,6 +91,9 @@ public class CardMesaLogic : MonoBehaviour
     {
         //Debug.Log("Type name is: " + transform.name.GetType());
         nameMesa = transform.parent.gameObject.name;
+        int num = nameMesa[9] - '0';
+        //Debug.Log("indexCard: " + indexCard);
+        GameManager.Instance.indexCardsMesa[num - 1] = indexCard;
         //nameMesa = nameMesa[9];
         //Debug.Log("Type: "  + nameMesa.GetType());
         //int num = int.Parse(nameMesa[9]);
@@ -119,6 +125,7 @@ public class CardMesaLogic : MonoBehaviour
         if (CardManager.Instance.IsCardSelected == true)
         {
             cardsContested++;
+            RevisarPuntaje(scoreHuman);
             CardManager.Instance.PonerCard(CardManager.Instance.selectedCard);
             RevisarQueCardEs();
             if (cardsContested == 1)
@@ -131,7 +138,6 @@ public class CardMesaLogic : MonoBehaviour
                 //Cambiar de sitio
             }
             firstTime();
-            RevisarPuntaje(scoreHuman);
 
             GameManager.Instance.changeTurn();
         }
@@ -140,30 +146,80 @@ public class CardMesaLogic : MonoBehaviour
     public void RevisarPuntaje(GameObject player)
     {
         //Debug.Log("Score: " + player.GetComponent<TextMeshPro>().text);
+        int newScore = 0;
+        int masScore = 0;
+        //Debug.Log("HumanTurn: " + GameManager.Instance.humanTurn);
+        if (GameManager.Instance.humanTurn)
+        {
+            masScore = BDCards.Instance.ReturningScore(indexCard, CardManager.Instance.indexSelectedCard);
+            BDCards.Instance.defensaPoints[CardManager.Instance.indexSelectedCard][indexCard] = masScore;
+            
+            StringBuilder sb = new StringBuilder();
 
-        int cont = BDCards.Instance.ReturningScore(indexCard, CardManager.Instance.indexSelectedCard);
-        Debug.Log("cont: " + cont);
+            for (int i = 0; i < BDCards.Instance.defensaPoints.Count; i++)
+            {
+                for (int j = 0; j < BDCards.Instance.defensaPoints[i].Count; j++)
+                {
+                    sb.Append(BDCards.Instance.defensaPoints[i][j]);
+                    if (j < BDCards.Instance.defensaPoints[i].Count - 1)
+                    {
+                        sb.Append(" ");  // Separator between elements in the same row
+                    }
+                }
+                if (i < BDCards.Instance.defensaPoints.Count - 1)
+                {
+                    sb.Append("//");  // Separator between rows
+                }
+            }
 
+            Debug.Log("Matrix: " + sb.ToString());
 
+        }
+        else
+        {
+            //Debug.Log("entro? " + indexCard + " con cartaDefensa: " + EnemyLogic.Instance.indexSelectCardEnemy);
+            masScore = BDCards.Instance.ReturningScore(indexCard, EnemyLogic.Instance.indexSelectCardEnemy);
+        }
+        //Debug.Log("cont: " + cont);
+        newScore = int.Parse(player.GetComponent<TextMeshPro>().text) + masScore;
+        player.GetComponent<TextMeshPro>().text = newScore.ToString();
     }
 
     IEnumerator DiscardCard()
     {
-        yield return new WaitForSeconds(3); //Revisar si vale la pena
+        yield return new WaitForSeconds(0); //Revisar si vale la pena
         nameMesa = transform.parent.gameObject.name;
 
+        //Poner putnaje
+        AddScore();
         //Entre muchas comillas aqui va la animación de draw new
         mini1.SetActive(false);
         mini2.SetActive(false);
 
         mini1AI.SetActive(false);
         mini2AI.SetActive(false);
+        scoreAI.GetComponent<TextMeshPro>().text = "0";
+        scoreHuman.GetComponent<TextMeshPro>().text = "0";
         ResetTurns();
 
-        Debug.Log("Se ha eliminado");
+        //Debug.Log("Se ha eliminado");
 
         indexCard = UnityEngine.Random.Range(0, BDCards.Instance.ataquesNames.Count);
         TextoCard.GetComponent<TextMeshPro>().text = BDCards.Instance.ataquesNames[indexCard];
+
+        if (TextoCard.GetComponent<TextMeshPro>().text.Length > 80)
+        {
+            TextoCard.GetComponent<TextMeshPro>().fontSize = 2;
+        }
+        else if (TextoCard.GetComponent<TextMeshPro>().text.Length > 30)
+        {
+            TextoCard.GetComponent<TextMeshPro>().fontSize = 3;
+        }
+        else
+        {
+            TextoCard.GetComponent<TextMeshPro>().fontSize = 4;
+        }
+        RevisarQueCardEs();
     }
 
     public void EliminarCard()
@@ -199,5 +255,30 @@ public class CardMesaLogic : MonoBehaviour
         {
             objTurns[i].SetActive(true);
         }
+    }
+
+    public void AddScore()
+    {
+        int scAI = int.Parse(scoreAI.GetComponent<TextMeshPro>().text);
+        int scHuman = int.Parse(scoreHuman.GetComponent<TextMeshPro>().text);
+        //Debug.Log("Scores: " + scAI + "-" + scHuman);
+        if (scAI > scHuman)
+        {
+            GameManager.Instance.puntajeAI = GameManager.Instance.puntajeAI + scAI + scHuman / 2;
+            //Debug.Log("Carta ganada: AI");
+        }
+        else if (scAI < scHuman)
+        {
+            GameManager.Instance.puntajePlayer = GameManager.Instance.puntajePlayer + scHuman + scAI / 2;
+            //Debug.Log("Carta ganada: Human");
+        }
+        else
+        {
+            //Debug.Log("Empate");
+            ;
+        }
+
+        GameManager.Instance.UIScore.GetComponent<TextMeshProUGUI>().text = "Puntaje jugador: " + GameManager.Instance.puntajePlayer + "\nPuntaje AI: " + GameManager.Instance.puntajeAI;
+        GameManager.Instance.GameOver();
     }
 }

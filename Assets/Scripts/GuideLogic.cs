@@ -28,10 +28,12 @@ public class GuideLogic : MonoBehaviour
     public void abrirGuidebook()
     {
         open_book.SetActive(true);
+        GameManager.Instance.UIScore.SetActive(false);
     }
 
     public void cerrarGuidebook()
     {
         open_book.SetActive(false);
+        GameManager.Instance.UIScore.SetActive(true);
     }
 }

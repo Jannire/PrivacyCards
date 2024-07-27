@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class X_guidebook : MonoBehaviour
+public class moreInfoCard : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -18,12 +18,12 @@ public class X_guidebook : MonoBehaviour
 
     void OnMouseOver()
     {
-        //Debug.Log("close close");
-        if (Input.GetMouseButtonDown(0))
+        //transform.localScale = scalFin;
+        Debug.Log("???");
+        if (Input.GetMouseButtonDown(0) && PreviewLogic.Instance.open)
         {
-            Debug.Log("closed guidebook");
-            GuideLogic.Instance.cerrarGuidebook();
+            PreviewLogic.Instance.FlipCard();
         }
-    }
 
+    }
 }
